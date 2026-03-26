@@ -1,153 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI Literacy Test</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f6f6f3;
-  color: #1738aa;
-}
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-h1 {
-  font-size: 48px;
-  font-weight: 300;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 20px;
-  border: 1px solid rgba(23,56,170,0.1);
-}
-
-.answers button {
-  margin: 5px;
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  background: #fff;
-  cursor: pointer;
-}
-
-.answers button.active {
-  background: #1132a8;
-  color: white;
-}
-
-button.main {
-  margin-top: 20px;
-  padding: 15px 20px;
-  background: #1132a8;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test your AI Literacy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-[#f6f6f3] text-[#1738aa]">
+  <div class="min-h-screen bg-[#f6f6f3] text-[#1738aa]">
+    <div class="relative overflow-hidden">
 
-<body>
+      <section class="max-w-6xl mx-auto px-6 md:px-10 pt-10 md:pt-14 pb-12 md:pb-16 relative z-10">
+        <div class="text-[#1738aa]/85 text-lg md:text-xl mb-8">Made by Natalia Fedorova</div>
 
-<div class="container">
-  <p>Made by Natalia Fedorova</p>
+        <div class="grid lg:grid-cols-1 gap-12 items-center">
+          <div>
+            <div class="inline-block mb-5 px-4 py-2 border border-[#1738aa]/15 rounded-full text-sm tracking-[0.18em] uppercase bg-white/70">
+              SAIL4ALL short version
+            </div>
 
-  <h1>Test your AI Literacy</h1>
-  <p>Short version of SAIL4ALL test</p>
+            <h1 class="text-5xl md:text-7xl leading-[0.94] font-light tracking-tight text-[#1738aa]">
+              Test your AI Literacy
+            </h1>
 
-  <div id="questions"></div>
+            <p class="mt-6 text-xl md:text-2xl leading-relaxed max-w-2xl text-[#2b46ad]/90">
+              Measure your AI literacy with a short interactive test inspired by the SAIL4ALL framework.
+            </p>
 
-  <button class="main" onclick="calculate()">Show result</button>
+            <div class="mt-8 grid sm:grid-cols-2 gap-4 max-w-2xl">
+              <div class="bg-white/85 rounded-[28px] border border-[#1738aa]/10 px-5 py-4 shadow-sm">
+                <div class="text-xs uppercase tracking-[0.18em] text-[#1738aa]/60">Authors</div>
+                <div class="mt-2 text-lg leading-snug text-[#1738aa]">
+                  María T. Soto-Sanfiel, Ariadna Angulo-Brunet, Christoph Lutz
+                </div>
+              </div>
 
-  <h2 id="result"></h2>
+              <div class="bg-white/85 rounded-[28px] border border-[#1738aa]/10 px-5 py-4 shadow-sm">
+                <div class="text-xs uppercase tracking-[0.18em] text-[#1738aa]/60">Source</div>
+                <a
+                  href="https://www.nature.com/articles/s41599-025-05978-3"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="mt-2 inline-block text-lg underline underline-offset-4"
+                >
+                  View original article
+                </a>
+              </div>
+            </div>
 
-  <button onclick="share()">Share</button>
-  <button onclick="shareLinkedIn()">Share on LinkedIn</button>
+            <div class="mt-8 flex flex-wrap gap-4">
+              <a
+                href="#test"
+                class="px-8 py-4 bg-[#1132a8] text-white rounded-none tracking-[0.18em] uppercase text-sm shadow-[0_18px_35px_rgba(17,50,168,0.25)]"
+              >
+                Take the test
+              </a>
 
-  <p>
-    Follow me:
-    <a href="https://www.linkedin.com/in/natalia-fedorova-ai/" target="_blank">
-      LinkedIn
-    </a>
-  </p>
-</div>
+              <a
+                href="https://www.linkedin.com/in/natalia-fedorova-ai/"
+                target="_blank"
+                rel="noreferrer"
+                class="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white/70 rounded-none tracking-[0.18em] uppercase text-sm"
+              >
+                Follow on LinkedIn
+              </a>
+            </div>
 
-<script>
-const questions = [
-  { text: "AI uses algorithms to learn from data.", correct: true },
-  { text: "AI is a single technology.", correct: false }
-];
+            <p class="mt-4 text-lg text-[#1738aa]/75 max-w-2xl">
+              Follow Natalia Fedorova on LinkedIn for additional content on AI, psychology, and career development.
+            </p>
+          </div>
+        </div>
+      </section>
 
-let answers = {};
+      <section id="test" class="max-w-5xl mx-auto px-6 md:px-10 pb-24 pt-2 relative z-10">
+        <div class="mb-10 text-center">
+          <p class="max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed text-[#2b46ad]/85">
+            This test is a short version of the SAIL4ALL scale and does not represent the full validated instrument. All items are scored automatically.
+          </p>
+        </div>
 
-function render() {
-  const container = document.getElementById("questions");
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white/90 rounded-[36px] p-6 border border-[#1738aa]/10 shadow-sm">
+            <div class="text-center mt-1 text-2xl text-[#1738aa]">Progress</div>
+            <div id="progressValue" class="text-center mt-2 text-4xl font-light">0%</div>
+            <div class="mt-5 h-2 bg-[#1738aa]/10 rounded-full overflow-hidden">
+              <div id="progressBar" class="h-full bg-[#1738aa]" style="width: 0%"></div>
+            </div>
+          </div>
 
-  questions.forEach((q, i) => {
-    const div = document.createElement("div");
-    div.className = "card";
+          <div class="bg-white/90 rounded-[36px] p-6 border border-[#1738aa]/10 shadow-sm">
+            <div class="text-center mt-1 text-2xl text-[#1738aa]">Format</div>
+            <div class="text-center mt-2 text-lg leading-relaxed text-[#2b46ad]/80">
+              10 questions · 1–5 scale · automatic scoring
+            </div>
+          </div>
 
-    div.innerHTML = `
-      <p>${q.text}</p>
-      <div class="answers">
-        ${[1,2,3,4,5].map(v => `
-          <button onclick="select(${i}, ${v}, this)">
-            ${v}
-          </button>
-        `).join("")}
-      </div>
-    `;
+          <div class="bg-white/90 rounded-[36px] p-6 border border-[#1738aa]/10 shadow-sm">
+            <div class="text-center mt-1 text-2xl text-[#1738aa]">Result</div>
+            <div class="text-center mt-2 text-lg leading-relaxed text-[#2b46ad]/80">
+              Your AI Literacy score, percentage, and interpretation
+            </div>
+          </div>
+        </div>
 
-    container.appendChild(div);
-  });
-}
+        <div id="questions" class="space-y-6"></div>
 
-function select(i, value, btn) {
-  answers[i] = value;
+        <div class="mt-10 bg-white/92 rounded-[36px] border border-[#1738aa]/10 shadow-sm p-6 md:p-8">
+          <div class="flex flex-wrap gap-4 items-center">
+            <button
+              id="showResultsBtn"
+              class="px-8 py-4 bg-[#1132a8] text-white rounded-none tracking-[0.18em] uppercase text-sm shadow-[0_18px_35px_rgba(17,50,168,0.25)] disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Show results
+            </button>
 
-  const buttons = btn.parentNode.querySelectorAll("button");
-  buttons.forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-}
+            <button
+              id="shareBtn"
+              disabled
+              class="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white rounded-none tracking-[0.18em] uppercase text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Share
+            </button>
 
-function calculate() {
-  let score = 0;
+            <button
+              id="shareLinkedInBtn"
+              disabled
+              class="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white rounded-none tracking-[0.18em] uppercase text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Share on LinkedIn
+            </button>
 
-  questions.forEach((q, i) => {
-    const v = answers[i];
-    if (!v) return;
+            <button
+              id="resetBtn"
+              class="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white rounded-none tracking-[0.18em] uppercase text-sm"
+            >
+              Reset
+            </button>
+          </div>
 
-    score += q.correct ? v : (6 - v);
-  });
+          <p id="incompleteNotice" class="mt-5 text-base text-[#1738aa]/75">
+            Please answer all 10 questions to unlock your result.
+          </p>
 
-  document.getElementById("result").innerText =
-    "Your score: " + score;
-}
+          <div id="resultsBlock" class="mt-8 space-y-5 hidden">
+            <div class="grid md:grid-cols-3 gap-5">
+              <div class="bg-[#1132a8] text-white rounded-[34px] p-7 shadow-[0_24px_45px_rgba(17,50,168,0.24)]">
+                <div class="text-xs uppercase tracking-[0.18em] text-white/70">
+                  Your AI Literacy Score
+                </div>
+                <div id="rawScore" class="mt-3 text-5xl font-light">—</div>
+                <div id="averageScore" class="mt-3 text-lg text-white/80">Average: —</div>
+              </div>
 
-function share() {
-  const text = "I tested my AI Literacy!";
-  navigator.clipboard.writeText(text);
-  alert("Copied!");
-}
+              <div class="bg-white rounded-[34px] p-7 border border-[#1738aa]/10">
+                <div class="text-xs uppercase tracking-[0.18em] text-[#1738aa]/55">
+                  Normalized score
+                </div>
+                <div id="normalizedScore" class="mt-3 text-5xl font-light text-[#1738aa]">—</div>
+                <div class="mt-3 text-lg text-[#1738aa]/70">Automatically includes reverse-scored items</div>
+              </div>
 
-function shareLinkedIn() {
-  const url = encodeURIComponent(window.location.href);
-  window.open(
-    `https://www.linkedin.com/sharing/share-offsite/?url=${url}`
-  );
-}
+              <div class="bg-gradient-to-br from-[#f4e7b6] via-[#e1c66f] to-[#c59a2f] rounded-[34px] p-7 text-[#1738aa] shadow-[0_20px_40px_rgba(183,138,39,0.22)]">
+                <div class="text-xs uppercase tracking-[0.18em] text-[#1738aa]/65">
+                  Interpretation
+                </div>
+                <div id="interpretation" class="mt-3 text-3xl leading-tight font-medium">—</div>
+                <div class="mt-3 text-base text-[#1738aa]/75">
+                  This is an indicative interpretation based on the short version.
+                </div>
+              </div>
+            </div>
 
-render();
-</script>
+            <div class="bg-[#eef2ff] border border-[#1738aa]/10 rounded-[28px] px-6 py-5 text-[#1738aa]/80 text-lg leading-relaxed">
+              Suggested share text:
+              <span id="shareTextPreview" class="text-[#1738aa] font-medium"></span>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <footer class="max-w-6xl mx-auto px-6 md:px-10 pb-12 text-center relative z-10">
+        <div class="border-t border-[#1738aa]/10 pt-8">
+          <div class="text-[#1738aa]/85 text-lg">Made by Natalia Fedorova</div>
+          <a
+            href="https://www.linkedin.com/in/natalia-fedorova-ai/"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-block mt-3 text-[#1738aa] underline underline-offset-4 text-lg"
+          >
+            Follow on LinkedIn for additional content
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { id: "is_01", text: "AI uses algorithms to learn from data and performs tasks that require intelligence.", correct: true },
+      { id: "is_02", text: "The use of massive data helps some AI algorithms to improve their performance.", correct: true },
+      { id: "is_03", text: "AI is applied to recognizing human speech.", correct: true },
+      { id: "is_04", text: "The ability to learn from experience is a feature of intelligence.", correct: true },
+      { id: "is_05", text: "Human intelligence is the only form of intelligence that can be considered true intelligence.", correct: false },
+      { id: "is_06", text: "The ability to use tools and manipulate the environment is a form of intelligence.", correct: true },
+      { id: "is_07", text: "Artificial intelligence can be programmed to perform a wide range of tasks with precision and consistency, surpassing the specific abilities of children's intelligence.", correct: true },
+      { id: "is_08", text: "The humanities have no place in artificial intelligence.", correct: false },
+      { id: "is_09", text: "AI is a single technology.", correct: false },
+      { id: "is_10", text: "Computer Vision is an example of interdisciplinary AI technology.", correct: true }
+    ];
+
+    const labels = {
+      1: "Strongly disagree",
+      2: "Disagree",
+      3: "Unsure",
+      4: "Agree",
+      5: "Strongly agree"
+    };
+
+    const answers = {};
+    let submitted = false;
+
+    const questionsContainer = document.getElementById("questions");
+    const progressValue = document.getElementById("progressValue");
+    const progressBar = document.getElementById("progressBar");
+    const incompleteNotice = document.getElementById("incompleteNotice");
+    const resultsBlock = document.getElementById("resultsBlock");
+    const showResultsBtn = document.getElementById("showResultsBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const shareLinkedInBtn = document.getElementById("shareLinkedInBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function renderQuestions() {
+      questionsContainer.innerHTML = "";
+
+      questions.forEach((q, index) => {
+        const card = document.createElement("div");
+        card.className = "relative bg-white/92 rounded-[34px] border border-[#1738aa]/10 shadow-sm px-6 md:px-8 py-7 overflow-hidden";
+
+        const answersHtml = [1,2,3,4,5].map((value) => {
+          const selected = answers[q.id] === value;
+          return `
+            <button
+              data-question="${q.id}"
+              data-value="${value}"
+              class="answer-btn group min-h-[116px] border transition-all px-4 py-4 text-left ${
+                selected
+                  ? "bg-[#1132a8] text-white border-[#1132a8] shadow-[0_16px_30px_rgba(17,50,168,0.22)]"
+                  : "bg-[#fbfbf8] text-[#1738aa] border-[#1738aa]/12 hover:border-[#1738aa]/30 hover:-translate-y-0.5"
+              }"
+            >
+              <div class="text-3xl font-light">${value}</div>
+              <div class="mt-3 text-sm leading-snug ${selected ? "text-white/85" : "text-[#1738aa]/68"}">
+                ${labels[value]}
+              </div>
+            </button>
+          `;
+        }).join("");
+
+        card.innerHTML = `
+          <div class="text-sm uppercase tracking-[0.18em] text-[#1738aa]/55 mb-3">
+            Question ${index + 1}
+          </div>
+          <div class="text-xl md:text-2xl leading-relaxed text-[#1738aa] max-w-4xl">
+            ${q.text}
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mt-6">
+            ${answersHtml}
+          </div>
+        `;
+
+        questionsContainer.appendChild(card);
+      });
+
+      document.querySelectorAll(".answer-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const qid = btn.dataset.question;
+          const value = Number(btn.dataset.value);
+          answers[qid] = value;
+          updateProgress();
+          renderQuestions();
+        });
+      });
+    }
+
+    function updateProgress() {
+      const answeredCount = Object.keys(answers).length;
+      const progress = Math.round((answeredCount / questions.length) * 100);
+      progressValue.textContent = progress + "%";
+      progressBar.style.width = progress + "%";
+    }
+
+    function scoreAnswer(question, value) {
+      return question.correct ? value : 6 - value;
+    }
+
+    function getResults() {
+      const rawScore = questions.reduce((sum, q) => {
+        if (answers[q.id] === undefined) return sum;
+        return sum + scoreAnswer(q, answers[q.id]);
+      }, 0);
+
+      const minScore = questions.length * 1;
+      const maxScore = questions.length * 5;
+      const normalizedPercent = Math.round(((rawScore - minScore) / (maxScore - minScore)) * 100);
+      const averageScore = (rawScore / questions.length).toFixed(1);
+
+      let interpretation = "";
+      if (normalizedPercent >= 80) interpretation = "High AI Literacy";
+      else if (normalizedPercent >= 60) interpretation = "Above average";
+      else if (normalizedPercent >= 40) interpretation = "Moderate level";
+      else if (normalizedPercent >= 20) interpretation = "Below average";
+      else interpretation = "Low AI Literacy";
+
+      return { rawScore, maxScore, normalizedPercent, averageScore, interpretation };
+    }
+
+    function allAnswered() {
+      return questions.every((q) => answers[q.id] !== undefined);
+    }
+
+    showResultsBtn.addEventListener("click", () => {
+      if (!allAnswered()) return;
+
+      submitted = true;
+      const { rawScore, maxScore, normalizedPercent, averageScore, interpretation } = getResults();
+
+      document.getElementById("rawScore").textContent = `${rawScore} / ${maxScore}`;
+      document.getElementById("averageScore").textContent = `Average: ${averageScore} / 5`;
+      document.getElementById("normalizedScore").textContent = `${normalizedPercent}%`;
+      document.getElementById("interpretation").textContent = interpretation;
+      document.getElementById("shareTextPreview").textContent =
+        ` I scored ${rawScore}/${maxScore} (${normalizedPercent}%) on the AI Literacy Test (SAIL4ALL).`;
+
+      resultsBlock.classList.remove("hidden");
+      incompleteNotice.classList.add("hidden");
+      shareBtn.disabled = false;
+      shareLinkedInBtn.disabled = false;
+    });
+
+    shareBtn.addEventListener("click", async () => {
+      if (!submitted || !allAnswered()) return;
+
+      const { rawScore, maxScore, normalizedPercent } = getResults();
+      const text = `I scored ${rawScore}/${maxScore} (${normalizedPercent}%) on the AI Literacy Test (SAIL4ALL). Try it yourself:`;
+      const url = window.location.href;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: "AI Literacy Test", text, url });
+        } catch (e) {}
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(text + " " + url);
+        alert("Link copied! Paste it into your social media.");
+      }
+    });
+
+    shareLinkedInBtn.addEventListener("click", () => {
+      if (!submitted || !allAnswered()) return;
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank");
+    });
+
+    resetBtn.addEventListener("click", () => {
+      Object.keys(answers).forEach((key) => delete answers[key]);
+      submitted = false;
+      resultsBlock.classList.add("hidden");
+      incompleteNotice.classList.remove("hidden");
+      shareBtn.disabled = true;
+      shareLinkedInBtn.disabled = true;
+      updateProgress();
+      renderQuestions();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    updateProgress();
+    renderQuestions();
+  </script>
 </body>
 </html>
