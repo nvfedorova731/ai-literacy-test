@@ -1,63 +1,264 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AI Literacy Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Literacy Test (SAIL4ALL)</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-
-<body>
+<body class="bg-slate-50">
   <div id="root"></div>
 
-  <script>
-    const { useState } = React;
-
-    function App() {
+  <script type="text/babel">
+    function AILiteracyTest() {
       const questions = [
-        { id: "1", text: "AI uses algorithms to learn from data.", correct: true },
-        { id: "2", text: "AI is a single technology.", correct: false },
+        {
+          id: "is_01",
+          text: "AI uses algorithms to learn from data and performs tasks that require intelligence.",
+          correct: true,
+        },
+        {
+          id: "is_02",
+          text: "The use of massive data helps some AI algorithms to improve their performance.",
+          correct: true,
+        },
+        {
+          id: "is_03",
+          text: "AI is applied to recognizing human speech.",
+          correct: true,
+        },
+        {
+          id: "is_04",
+          text: "The ability to learn from experience is a feature of intelligence.",
+          correct: true,
+        },
+        {
+          id: "is_05",
+          text: "Human intelligence is the only form of intelligence that can be considered true intelligence.",
+          correct: false,
+        },
+        {
+          id: "is_06",
+          text: "The ability to use tools and manipulate the environment is a form of intelligence.",
+          correct: true,
+        },
+        {
+          id: "is_07",
+          text: "Artificial intelligence can be programmed to perform a wide range of tasks with precision and consistency, surpassing the specific abilities of children's intelligence.",
+          correct: true,
+        },
+        {
+          id: "is_08",
+          text: "The humanities have no place in artificial intelligence.",
+          correct: false,
+        },
+        {
+          id: "is_09",
+          text: "AI is a single technology.",
+          correct: false,
+        },
+        {
+          id: "is_10",
+          text: "Computer Vision is an example of interdisciplinary AI technology.",
+          correct: true,
+        },
       ];
 
-      const [answers, setAnswers] = useState({});
-      const [submitted, setSubmitted] = useState(false);
+      const labels = {
+        1: "Strongly disagree",
+        2: "Disagree",
+        3: "Unsure",
+        4: "Agree",
+        5: "Strongly agree",
+      };
 
-      const score = Object.keys(answers).reduce((sum, key) => {
-        const q = questions.find(q => q.id === key);
-        return sum + (q.correct ? answers[key] : 6 - answers[key]);
+      const [answers, setAnswers] = React.useState({});
+      const [submitted, setSubmitted] = React.useState(false);
+
+      const allAnswered = questions.every((q) => answers[q.id] !== undefined);
+
+      const scoreAnswer = (question, value) => {
+        const numericValue = Number(value);
+        return question.correct ? numericValue : 6 - numericValue;
+      };
+
+      const rawScore = questions.reduce((sum, q) => {
+        if (answers[q.id] === undefined) return sum;
+        return sum + scoreAnswer(q, answers[q.id]);
       }, 0);
 
-      return React.createElement("div", { className: "p-10" },
-        React.createElement("h1", { className: "text-2xl mb-6" }, "AI Literacy Test"),
+      const minScore = questions.length * 1;
+      const maxScore = questions.length * 5;
+      const normalizedPercent = Math.round(
+        ((rawScore - minScore) / (maxScore - minScore)) * 100
+      );
+      const averageScore = allAnswered ? (rawScore / questions.length).toFixed(1) : "—";
 
-        questions.map(q =>
-          React.createElement("div", { key: q.id, className: "mb-4" },
-            React.createElement("p", null, q.text),
-            [1,2,3,4,5].map(v =>
-              React.createElement("button", {
-                key: v,
-                onClick: () => setAnswers({...answers, [q.id]: v}),
-                className: "border px-3 py-1 m-1"
-              }, v)
-            )
-          )
-        ),
+      let interpretation = "";
+      if (normalizedPercent >= 80) interpretation = "High AI Literacy";
+      else if (normalizedPercent >= 60) interpretation = "Above average";
+      else if (normalizedPercent >= 40) interpretation = "Moderate level";
+      else if (normalizedPercent >= 20) interpretation = "Below average";
+      else interpretation = "Low AI Literacy";
 
-        React.createElement("button", {
-          onClick: () => setSubmitted(true),
-          className: "mt-4 bg-black text-white px-4 py-2"
-        }, "Show result"),
+      const resetTest = () => {
+        setAnswers({});
+        setSubmitted(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
 
-        submitted && React.createElement("div", { className: "mt-4" },
-          "Score: " + score
-        )
+      return (
+        <div className="min-h-screen bg-slate-50 text-slate-900 px-4 py-8 md:px-8">
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+              <p className="text-sm text-slate-500 mb-2">Based on academic research</p>
+              <h1 className="text-3xl md:text-4xl font-semibold leading-tight">
+                AI Literacy Test (SAIL4ALL)
+              </h1>
+              <p className="mt-4 text-sm md:text-base text-slate-600">
+                Authors: María T. Soto-Sanfiel, Ariadna Angulo-Brunet, Christoph Lutz
+              </p>
+              <a
+                href="https://www.nature.com/articles/s41599-025-05978-3"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-2 text-blue-600 underline"
+              >
+                View original article (Nature)
+              </a>
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+              <h2 className="text-xl font-semibold mb-3">Instructions</h2>
+              <p className="text-slate-600 leading-7">
+                Please rate how much you agree with each statement from 1 to 5.
+                Higher values indicate stronger agreement. All questions are automatically scored.
+                This is a short version of the SAIL4ALL scale and does not represent the full validated test.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {questions.map((q, index) => (
+                <div
+                  key={q.id}
+                  className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6"
+                >
+                  <div className="mb-4">
+                    <div className="text-sm text-slate-500 mb-2">
+                      Question {index + 1}
+                    </div>
+                    <div className="text-lg md:text-xl font-medium leading-7">
+                      {q.text}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
+                    {[1, 2, 3, 4, 5].map((value) => {
+                      const selected = answers[q.id] === value;
+                      return (
+                        <button
+                          key={value}
+                          onClick={() =>
+                            setAnswers((prev) => ({ ...prev, [q.id]: value }))
+                          }
+                          className={
+                            "rounded-2xl border px-4 py-4 text-left transition-all " +
+                            (selected
+                              ? "border-slate-900 bg-slate-900 text-white"
+                              : "border-slate-200 bg-white hover:border-slate-400")
+                          }
+                        >
+                          <div className="text-2xl font-semibold">{value}</div>
+                          <div
+                            className={
+                              "text-xs mt-2 " +
+                              (selected ? "text-slate-200" : "text-slate-500")
+                            }
+                          >
+                            {labels[value]}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => setSubmitted(true)}
+                  disabled={!allAnswered}
+                  className="rounded-2xl px-5 py-3 font-medium bg-slate-900 text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  Show results
+                </button>
+
+                <button
+                  onClick={resetTest}
+                  className="rounded-2xl px-5 py-3 font-medium border border-slate-300 bg-white"
+                >
+                  Reset
+                </button>
+              </div>
+
+              {!allAnswered && (
+                <p className="mt-4 text-sm text-rose-600">
+                  Please answer all 10 questions to see your score.
+                </p>
+              )}
+
+              {submitted && allAnswered && (
+                <div className="mt-6 grid md:grid-cols-3 gap-4">
+                  <div className="rounded-3xl bg-slate-900 text-white p-6">
+                    <div className="text-sm uppercase tracking-wide text-slate-300">
+                      Your AI Literacy Score
+                    </div>
+                    <div className="text-4xl font-semibold mt-2">
+                      {rawScore} / {maxScore}
+                    </div>
+                    <div className="mt-2 text-slate-300">
+                      Average: {averageScore} / 5
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl bg-slate-100 p-6">
+                    <div className="text-sm uppercase tracking-wide text-slate-500">
+                      Normalized score
+                    </div>
+                    <div className="text-4xl font-semibold mt-2">
+                      {normalizedPercent}%
+                    </div>
+                    <div className="mt-2 text-slate-600">
+                      Reverse-scored items are included automatically.
+                    </div>
+                  </div>
+
+                  <div className="rounded-3xl bg-amber-50 p-6">
+                    <div className="text-sm uppercase tracking-wide text-amber-700">
+                      Interpretation
+                    </div>
+                    <div className="text-2xl font-semibold mt-2 text-amber-900">
+                      {interpretation}
+                    </div>
+                    <div className="mt-2 text-sm text-amber-800">
+                      This is an indicative interpretation based on the short version.
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById("root")).render(
-      React.createElement(App)
-    );
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<AILiteracyTest />);
   </script>
 </body>
 </html>
