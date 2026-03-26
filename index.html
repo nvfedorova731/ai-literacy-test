@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Literacy Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>
+    const { useState } = React;
+
+    function App() {
+      const questions = [
+        { id: "1", text: "AI uses algorithms to learn from data.", correct: true },
+        { id: "2", text: "AI is a single technology.", correct: false },
+      ];
+
+      const [answers, setAnswers] = useState({});
+      const [submitted, setSubmitted] = useState(false);
+
+      const score = Object.keys(answers).reduce((sum, key) => {
+        const q = questions.find(q => q.id === key);
+        return sum + (q.correct ? answers[key] : 6 - answers[key]);
+      }, 0);
+
+      return React.createElement("div", { className: "p-10" },
+        React.createElement("h1", { className: "text-2xl mb-6" }, "AI Literacy Test"),
+
+        questions.map(q =>
+          React.createElement("div", { key: q.id, className: "mb-4" },
+            React.createElement("p", null, q.text),
+            [1,2,3,4,5].map(v =>
+              React.createElement("button", {
+                key: v,
+                onClick: () => setAnswers({...answers, [q.id]: v}),
+                className: "border px-3 py-1 m-1"
+              }, v)
+            )
+          )
+        ),
+
+        React.createElement("button", {
+          onClick: () => setSubmitted(true),
+          className: "mt-4 bg-black text-white px-4 py-2"
+        }, "Show result"),
+
+        submitted && React.createElement("div", { className: "mt-4" },
+          "Score: " + score
+        )
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(
+      React.createElement(App)
+    );
+  </script>
+</body>
+</html>
