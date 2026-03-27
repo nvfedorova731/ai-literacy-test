@@ -1,387 +1,114 @@
-import React from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Literacy Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-export default function AILiteracyTest() {
-  const questions = [
-    {
-      id: "q1",
-      text: "Knowledge representation plays a crucial role in machine learning by creating feature representations from raw data.",
-      correct: true,
-    },
-    {
-      id: "q2",
-      text: "Computers can only reason and make decisions in a way that is identical to how humans do.",
-      correct: false,
-    },
-    {
-      id: "q3",
-      text: "Biased data perpetuates social stereotypes.",
-      correct: true,
-    },
-    {
-      id: "q4",
-      text: "Data is subject to interpretation.",
-      correct: true,
-    },
-    {
-      id: "q5",
-      text: "Human intelligence is the only form of intelligence that can be considered true intelligence.",
-      correct: false,
-    },
-    {
-      id: "q6",
-      text: "Artificial intelligence can be programmed to perform a wide range of tasks with precision and consistency, surpassing the specific abilities of children's intelligence.",
-      correct: true,
-    },
-    {
-      id: "q7",
-      text: "The role of humans in AI development is mainly limited to monitoring already deployed systems.",
-      correct: false,
-    },
-    {
-      id: "q8",
-      text: "AI is effective at solving problems that involve human emotions.",
-      correct: false,
-    },
-    {
-      id: "q9",
-      text: "Modern AI systems can form complex associations in the same way humans do.",
-      correct: false,
-    },
-    {
-      id: "q10",
-      text: "Some data used in AI reflects specific cultural contexts and can influence model outcomes.",
-      correct: true,
-    },
-  ];
+<body class="bg-[#f6f6f3] text-[#1738aa]">
 
-  const labels = {
-    1: "Strongly disagree",
-    2: "Disagree",
-    3: "Unsure",
-    4: "Agree",
-    5: "Strongly agree",
-  };
+<div class="max-w-4xl mx-auto p-6">
 
-  const [answers, setAnswers] = React.useState({});
-  const [submitted, setSubmitted] = React.useState(false);
+  <h1 class="text-4xl mb-6">AI Literacy Test</h1>
 
-  const allAnswered = questions.every((q) => answers[q.id] !== undefined);
-  const answeredCount = Object.keys(answers).length;
-  const progress = Math.round((answeredCount / questions.length) * 100);
+  <div id="test"></div>
 
-  const scoreAnswer = (question, value) => {
-    const v = Number(value);
-    return question.correct ? v : 6 - v;
-  };
+  <button onclick="submitTest()" class="mt-6 px-6 py-3 bg-[#1132a8] text-white">
+    Show results
+  </button>
 
-  const rawScore = questions.reduce((sum, q) => {
-    if (answers[q.id] === undefined) return sum;
-    return sum + scoreAnswer(q, answers[q.id]);
-  }, 0);
+  <div id="results" class="mt-10 hidden"></div>
 
-  const minScore = questions.length * 1;
-  const maxScore = questions.length * 5;
-  const normalizedPercent = Math.round(((rawScore - minScore) / (maxScore - minScore)) * 100);
-  const averageScore = allAnswered ? (rawScore / questions.length).toFixed(1) : "—";
+</div>
 
-  const interpretation =
-    normalizedPercent >= 80
-      ? "High AI Literacy"
-      : normalizedPercent >= 60
-        ? "Above average"
-        : normalizedPercent >= 40
-          ? "Moderate level"
-          : normalizedPercent >= 20
-            ? "Below average"
-            : "Low AI Literacy";
+<script>
 
-  const resetTest = () => {
-    setAnswers({});
-    setSubmitted(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+const questions = [
+  { text: "Knowledge representation plays a crucial role in machine learning by creating feature representations from raw data.", correct: true },
+  { text: "Computers can only reason and make decisions in a way that is identical to how humans do.", correct: false },
+  { text: "Biased data perpetuates social stereotypes.", correct: true },
+  { text: "Data is subject to interpretation.", correct: true },
+  { text: "Human intelligence is the only form of intelligence that can be considered true intelligence.", correct: false },
+  { text: "Artificial intelligence can be programmed to perform a wide range of tasks with precision and consistency, surpassing the specific abilities of children's intelligence.", correct: true },
+  { text: "The role of humans in AI development is mainly limited to monitoring already deployed systems.", correct: false },
+  { text: "AI is effective at solving problems that involve human emotions.", correct: false },
+  { text: "Modern AI systems can form complex associations in the same way humans do.", correct: false },
+  { text: "Some data used in AI reflects specific cultural contexts and can influence model outcomes.", correct: true }
+];
 
-  const shareText = async () => {
-    if (!submitted || !allAnswered) return;
+const container = document.getElementById("test");
 
-    const text = `I scored ${rawScore}/${maxScore} (${normalizedPercent}%) on the AI Literacy Test (SAIL4ALL). Try it yourself:`;
-    const url = window.location.href;
-    const fullText = `${text} ${url}`;
+questions.forEach((q, i) => {
+  const div = document.createElement("div");
+  div.className = "mb-6";
 
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "AI Literacy Test", text, url });
-        return;
-      } catch (e) {
-        // ignore cancel
-      }
-    }
+  div.innerHTML = `
+    <div class="mb-2 font-medium">Question ${i+1}</div>
+    <div class="mb-3">${q.text}</div>
+    <div>
+      ${[1,2,3,4,5].map(v => `
+        <label class="mr-4">
+          <input type="radio" name="q${i}" value="${v}"> ${v}
+        </label>
+      `).join("")}
+    </div>
+  `;
 
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(fullText);
-      alert("Result copied! Paste it into your social media.");
-    }
-  };
+  container.appendChild(div);
+});
 
-  const shareLinkedIn = async () => {
-    if (!submitted || !allAnswered) return;
+function submitTest() {
+  let score = 0;
 
-    const text = `I scored ${rawScore}/${maxScore} (${normalizedPercent}%) on the AI Literacy Test (SAIL4ALL). Try it yourself:`;
-    const url = window.location.href;
+  questions.forEach((q, i) => {
+    const val = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!val) return;
 
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(`${text} ${url}`);
-    }
+    let v = Number(val.value);
+    score += q.correct ? v : (6 - v);
+  });
 
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, "_blank");
-    alert("Share text copied. Paste it into your LinkedIn post.");
-  };
+  const max = questions.length * 5;
+  const percent = Math.round(score / max * 100);
 
-  return (
-    <>
-      <style>{`
-        *::before, *::after { content: none !important; }
-        body { background: #f6f6f3 !important; }
-        
-      `}</style>
+  let interpretation =
+    percent >= 80 ? "High AI Literacy" :
+    percent >= 60 ? "Above average" :
+    percent >= 40 ? "Moderate level" :
+    percent >= 20 ? "Below average" :
+    "Low AI Literacy";
 
-      <div className="min-h-screen bg-[#f6f6f3] text-[#1738aa]">
-        <div className="relative overflow-hidden">
-          <section className="max-w-6xl mx-auto px-6 md:px-10 pt-10 md:pt-14 pb-12 md:pb-16 relative z-10">
-            <div className="text-[#1738aa]/85 text-lg md:text-xl mb-8">Made by Natalia Fedorova</div>
+  const results = document.getElementById("results");
+  results.classList.remove("hidden");
 
-            <div className="grid lg:grid-cols-1 gap-12 items-center">
-              <div>
-                <div className="inline-block mb-5 px-4 py-2 border border-[#1738aa]/15 rounded-full text-sm tracking-[0.18em] uppercase bg-white/70 backdrop-blur-sm">
-                  SAIL4ALL short version
-                </div>
+  results.innerHTML = `
+    <div class="grid md:grid-cols-3 gap-6">
 
-                <h1 className="text-5xl md:text-7xl leading-[0.94] font-light tracking-tight text-[#1738aa]">
-                  Test your AI Literacy
-                </h1>
-
-                <p className="mt-6 text-xl md:text-2xl leading-relaxed max-w-2xl text-[#2b46ad]/90">
-                  Measure your AI literacy with a short interactive test inspired by the SAIL4ALL framework.
-                </p>
-
-                <div className="mt-8 grid sm:grid-cols-2 gap-4 max-w-2xl">
-                  <div className="bg-white/85 backdrop-blur rounded-[28px] border border-[#1738aa]/10 px-5 py-4 shadow-sm">
-                    <div className="text-xs uppercase tracking-[0.18em] text-[#1738aa]/60">Authors</div>
-                    <div className="mt-2 text-lg leading-snug text-[#1738aa]">
-                      María T. Soto-Sanfiel, Ariadna Angulo-Brunet, Christoph Lutz
-                    </div>
-                  </div>
-
-                  <div className="bg-white/85 backdrop-blur rounded-[28px] border border-[#1738aa]/10 px-5 py-4 shadow-sm">
-                    <div className="text-xs uppercase tracking-[0.18em] text-[#1738aa]/60">Source</div>
-                    <a
-                      href="https://www.nature.com/articles/s41599-025-05978-3"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-2 inline-block text-lg underline underline-offset-4"
-                    >
-                      View original article
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <a
-                    href="#test"
-                    className="px-8 py-4 bg-[#1132a8] text-white rounded-none tracking-[0.18em] uppercase text-sm shadow-[0_18px_35px_rgba(17,50,168,0.25)]"
-                  >
-                    Take the test
-                  </a>
-
-                  <a
-                    href="https://www.linkedin.com/in/natalia-fedorova-ai/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white/70 rounded-none tracking-[0.18em] uppercase text-sm"
-                  >
-                    Follow on LinkedIn
-                  </a>
-                </div>
-
-                <p className="mt-4 text-lg text-[#1738aa]/80 max-w-2xl">
-                  Follow Natalia Fedorova on LinkedIn for additional content on AI, psychology, and career development.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section id="test" className="max-w-5xl mx-auto px-6 md:px-10 pb-24 pt-2 relative z-10">
-            <div className="mb-10 text-center">
-              <p className="max-w-3xl mx-auto text-xl md:text-2xl leading-relaxed text-[#2b46ad]/85">
-                This test is a short version of the SAIL4ALL scale and does not represent the full validated instrument. All items are scored automatically.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white/90 rounded-[36px] p-6 border border-[#1738aa]/10 shadow-sm">
-                <div className="text-center mt-5 text-2xl text-[#1738aa]">Progress</div>
-                <div className="text-center mt-2 text-4xl font-light">{progress}%</div>
-                <div className="mt-5 h-2 bg-[#1738aa]/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#1738aa]" style={{ width: `${progress}%` }} />
-                </div>
-              </div>
-
-              <div className="bg-white/90 rounded-[36px] p-6 border border-[#1738aa]/10 shadow-sm">
-                <div className="text-center mt-5 text-2xl text-[#1738aa]">Format</div>
-                <div className="text-center mt-2 text-lg leading-relaxed text-[#2b46ad]/80">
-                  10 questions · 1–5 scale · automatic scoring
-                </div>
-              </div>
-
-              <div className="bg-[linear-gradient(135deg,#f7e7a9_0%,#e6c35c_35%,#d4a93a_65%,#b88a1e_100%)] rounded-[36px] p-6 border border-[#d7bf72]/50 shadow-[0_25px_60px_rgba(183,138,39,0.35)] text-[#1738aa]">
-                <div className="text-center mt-5 text-2xl text-[#1738aa]">Result</div>
-                <div className="text-center mt-2 text-lg leading-relaxed text-[#1738aa]/85">
-                  Your AI Literacy score, percentage, and interpretation
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              {questions.map((q, index) => (
-                <div
-                  key={q.id}
-                  className="relative bg-white/92 backdrop-blur rounded-[34px] border border-[#1738aa]/10 shadow-sm px-6 md:px-8 py-7 overflow-hidden"
-                >
-                  <div className="text-sm uppercase tracking-[0.18em] text-[#1738aa]/55 mb-3">
-                    Question {index + 1}
-                  </div>
-
-                  <div className="text-xl md:text-2xl leading-relaxed text-[#1738aa] max-w-4xl">
-                    {q.text}
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 mt-6">
-                    {[1, 2, 3, 4, 5].map((value) => {
-                      const selected = answers[q.id] === value;
-                      return (
-                        <button
-                          key={value}
-                          onClick={() => setAnswers((prev) => ({ ...prev, [q.id]: value }))}
-                          className={
-                            "group min-h-[116px] border transition-all px-4 py-4 text-left " +
-                            (selected
-                              ? "bg-[#1132a8] text-white border-[#1132a8] shadow-[0_16px_30px_rgba(17,50,168,0.22)]"
-                              : "bg-[#fbfbf8] text-[#1738aa] border-[#1738aa]/12 hover:border-[#1738aa]/30 hover:-translate-y-0.5")
-                          }
-                        >
-                          <div className="text-3xl font-light">{value}</div>
-                          <div className={"mt-3 text-sm leading-snug " + (selected ? "text-white/85" : "text-[#1738aa]/68")}>
-                            {labels[value]}
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 bg-white/92 rounded-[36px] border border-[#1738aa]/10 shadow-sm p-6 md:p-8">
-              <div className="flex flex-wrap gap-4 items-center">
-                <button
-                  onClick={() => setSubmitted(true)}
-                  disabled={!allAnswered}
-                  className="px-8 py-4 bg-[#1132a8] text-white rounded-none tracking-[0.18em] uppercase text-sm shadow-[0_18px_35px_rgba(17,50,168,0.25)] disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  Show results
-                </button>
-
-                <button
-                  onClick={shareText}
-                  disabled={!submitted || !allAnswered}
-                  className="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white rounded-none tracking-[0.18em] uppercase text-sm disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  Share
-                </button>
-
-                <button
-                  onClick={shareLinkedIn}
-                  disabled={!submitted || !allAnswered}
-                  className="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white rounded-none tracking-[0.18em] uppercase text-sm disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  Share on LinkedIn
-                </button>
-
-                <button
-                  onClick={resetTest}
-                  className="px-8 py-4 border border-[#1738aa]/25 text-[#1738aa] bg-white rounded-none tracking-[0.18em] uppercase text-sm"
-                >
-                  Reset
-                </button>
-              </div>
-
-              {!allAnswered && (
-                <p className="mt-5 text-base text-[#1738aa]/80">
-                  Please answer all 10 questions to unlock your result.
-                </p>
-              )}
-
-              {submitted && allAnswered && (
-                <div className="mt-8 space-y-5">
-                  <div className="grid md:grid-cols-3 gap-5">
-                    <div className="bg-[#1132a8] text-white rounded-[34px] p-7 shadow-[0_24px_45px_rgba(17,50,168,0.24)]">
-                      <div className="text-xs uppercase tracking-[0.18em] text-white/70">
-                        Your AI Literacy Score
-                      </div>
-                      <div className="mt-3 text-5xl font-light">
-                        {rawScore} / {maxScore}
-                      </div>
-                      <div className="mt-3 text-lg text-white/80">Average: {averageScore} / 5</div>
-                    </div>
-
-                    <div className="bg-white rounded-[34px] p-7 border border-[#1738aa]/10">
-                      <div className="text-xs uppercase tracking-[0.18em] text-[#1738aa]/55">
-                        Normalized score
-                      </div>
-                      <div className="mt-3 text-5xl font-light text-[#1738aa]">{normalizedPercent}%</div>
-                      <div className="mt-3 text-lg text-[#1738aa]/70">Automatically includes reverse-scored items</div>
-                    </div>
-
-                    <div className="bg-[linear-gradient(135deg,#f7e7a9_0%,#e6c35c_35%,#d4a93a_65%,#b88a1e_100%)] rounded-[34px] p-7 text-[#1738aa] shadow-[0_25px_60px_rgba(183,138,39,0.35)]">
-                      <div className="text-xs uppercase tracking-[0.18em] text-[#1738aa]/70">
-                        Interpretation
-                      </div>
-                      <div className="mt-3 text-3xl leading-tight font-medium text-[#1738aa]">
-                        {interpretation}
-                      </div>
-                      <div className="mt-3 text-base text-[#1738aa]/80">
-                        This is an indicative interpretation based on the short version.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-[#eef2ff] border border-[#1738aa]/10 rounded-[28px] px-6 py-5 text-[#1738aa]/80 text-lg leading-relaxed">
-                    Suggested share text:{" "}
-                    <span className="text-[#1738aa] font-medium">
-                      I scored {rawScore}/{maxScore} ({normalizedPercent}%) on the AI Literacy Test (SAIL4ALL).
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </section>
-
-          <footer className="max-w-6xl mx-auto px-6 md:px-10 pb-12 text-center relative z-10">
-            <div className="border-t border-[#1738aa]/10 pt-8">
-              <div className="text-[#1738aa]/85 text-lg">Made by Natalia Fedorova</div>
-              <a
-                href="https://www.linkedin.com/in/natalia-fedorova-ai/"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block mt-3 text-[#1738aa] underline underline-offset-4 text-lg"
-              >
-                Follow on LinkedIn for additional content
-              </a>
-            </div>
-          </footer>
-        </div>
+      <div class="bg-[#1132a8] text-white p-6 rounded-2xl">
+        <div class="text-sm">Score</div>
+        <div class="text-4xl">${score}/${max}</div>
       </div>
-    </>
-  );
+
+      <div class="bg-white p-6 rounded-2xl border">
+        <div class="text-sm">Normalized</div>
+        <div class="text-4xl">${percent}%</div>
+      </div>
+
+      <div class="p-6 rounded-2xl text-[#1738aa]"
+        style="background: linear-gradient(135deg,#f7e7a9,#e6c35c,#d4a93a,#b88a1e);">
+
+        <div class="text-sm tracking-wide uppercase">Interpretation</div>
+        <div class="text-2xl mt-2">${interpretation}</div>
+
+      </div>
+
+    </div>
+  `;
 }
 
+</script>
+
+</body>
+</html>
